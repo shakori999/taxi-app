@@ -29,12 +29,12 @@ class TaxiConsumer(AsyncJsonWebsocketConsumer):
             ).only('id').values_list('id', flat=True)
         return map(str, trips_ids)
 
-    # @database_sync_to_async
-    # def _update_trip(self, data):
-    #     instance = Trip.objects.get(id=data.get('id'))
-    #     serializer = TripSerializer(data=data)
-    #     serializer.is_valid(raise_exception=True)
-    #     return serializer.update(instance, serializer.validated_data)
+    @database_sync_to_async
+    def _update_trip(self, data):
+        instance = Trip.objects.get(id=data.get('id'))
+        serializer = TripSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.update(instance, serializer.validated_data)
 
     async def create_trip(self, message):
         data =  message.get('data')
@@ -110,30 +110,30 @@ class TaxiConsumer(AsyncJsonWebsocketConsumer):
         elif message_type == 'update.trip':
             await self.echo_message(content)
 
-    # async def update_trip(self, message):
-    #     data = message.get('data')
-    #     trip = await self._update_trip(data)
-    #     trip_id = f'{trip.id}'
-    #     trip_data = NestedTripSerializer(trip).data
+    async def update_trip(self, message):
+        data = message.get('data')
+        trip = await self._update_trip(data)
+        trip_id = f'{trip.id}'
+        trip_data = NestedTripSerializer(trip).data
 
-    #     # Send update to rider.
-    #     await self.channel_layer.group_send(
-    #         group=trip_id,
-    #         message={
-    #             'type': 'echo.message',
-    #             'data': trip_data,
-    #         }
-    #     )
+        # Send update to rider.
+        await self.channel_layer.group_send(
+            group=trip_id,
+            message={
+                'type': 'echo.message',
+                'data': trip_data,
+            }
+        )
 
-    #     # Add driver to the trip group.
-    #     await self.channel_layer.group_add(
-    #         group=trip_id,
-    #         channel=self.channel_name
-    #     )
+        # Add driver to the trip group.
+        await self.channel_layer.group_add(
+            group=trip_id,
+            channel=self.channel_name
+        )
 
-    #     await self.send_json({
-    #         'type': 'echo.message',
-    #         'data': trip_data
-    #     })
+        await self.send_json({
+            'type': 'echo.message',
+            'data': trip_data
+        })
 
 
