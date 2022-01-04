@@ -14,7 +14,7 @@ function App () {
       <div>
         <h1>Taxi</h1>
         <Link to='/sign-up'>Sign Up</Link>
-        <Link to='/sign-up'>Sign Up</Link>
+        <Link to='/log-in'>Log In</Link>
       </div>
     )} />
     <Route path='/sign-up' component={SignUp} />
