@@ -5,6 +5,8 @@ describe('Authentication', function () {
     cy.get('input#password').type('pAssw0rd', { log: false });
     cy.get('button').contains('Log in').click();
     cy.hash().should('eq', '#/');
+
+    cy.get('button').contains('Log out');
   });
 
   it('Can sign up.', function () {
