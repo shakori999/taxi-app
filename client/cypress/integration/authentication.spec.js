@@ -29,33 +29,53 @@ describe('Authentication', function () {
 
   it('Can sign up.', function () {
     const filepath = 'images/photo.jpg'
+    cy.server();
+    cy.route({
+      method: 'POST',
+      url: '**/api/sign_up/**',
+      status: 201,
+      response: {
+        'id': 1,
+        'username': 'gary.cole@example.com',
+        'first_name': 'Gary',
+        'last_name': 'Cole',
+        'group': 'driver',
+        'photo': '/media/images/photo.jpg'
+      }
+    }).as('signUp');
+
     cy.visit('/#/sign-up');
     cy.get('input#username').type('gary.cole@example.com');
     cy.get('input#firstName').type('Gary');
     cy.get('input#lastName').type('Cole');
     cy.get('input#password').type('pAssw0rd', { log: false });
     cy.get('select#group').select('driver');
+
     cy.get('input#photo').attachFile(filepath)
     cy.get('button').contains('Sign up').click();
+    cy.wait('@signUp');
     cy.hash().should('eq', '#/log-in');
-    });
-  
+  });
+
   it('Cannot visit the login page when logged in', function () {
     logIn();
     cy.visit('/#/log-in');
     cy.hash().should('eq', '#/');
 
   });
+
   it('Cannot visit the sign up when logged in', function () {
     logIn();
     cy.visit('/#/sign-up');
     cy.hash().should('eq', '#/');
   });
+
   it('Cannot see the links when logged in', function () {
     logIn();
     cy.get('button#signUp').should('not.exist')
     cy.get('button#logIn').should('not.exist')
   });
+
   it("Shows an alert on login error.", function() {
     const { username, password } = Cypress.env('credentials');
     cy.server();
@@ -81,6 +101,7 @@ describe('Authentication', function () {
     );
     cy.hash().should('eq', '#/log-in');
   });
+
   it('Can log out.', function () {
   logIn();
   cy.get('button').contains('Log out').click().should(() => {
@@ -88,4 +109,5 @@ describe('Authentication', function () {
   });
   cy.get('button').contains('Log out').should('not.exist');
   });
+  
 });

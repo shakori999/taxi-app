@@ -1,11 +1,35 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import axios from 'axios';
 import { Breadcrumb,Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 
 function SignUp (props) {
   const [isSubmitted, setSubmitted] = useState(false);
-  const onSubmit = (values, actions) => setSubmitted(true);
+  const onSubmit = async (values, actions) => {
+    const url = '/api/sign_up/';
+    const formData = new FormData();
+    formData.append('username', values.username);
+    formData.append('first_name', values.firstName);
+    formData.append('last_name', values.lastName);
+    formData.append('password1', values.password);
+    formData.append('password2', values.password);
+    formData.append('group', values.group);
+    formData.append('photo', values.photo);
+    try {
+    await axios.post(url, formData);
+    setSubmitted(true);
+    }
+    catch (response) {
+      const data = response.response.data;
+      for (const value in data) {
+        actions.setFieldError(value, data[value].join(' '));
+      }
+    }
+    finally {
+      actions.setSubmitting(false);
+    }
+  };
   if (isSubmitted) {
     return <Redirect to='/log-in' />
   }
