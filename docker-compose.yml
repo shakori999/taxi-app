@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+      taxi-redis:
+            container_name: taxi-redis
+            image: redis:5.0.7-alpine
+
+      taxi-server:
+            build:
+            context: ./server
+            command: python taxi/manage.py runserver 0.0.0.0:8000
+            container_name: taxi-server
+            depends_on:
+                  - taxi-redis
+            environment:
+                  - REDIS_URL=redis://taxi-redis:6379/0
+            ports:
+                  - 8001:8000
