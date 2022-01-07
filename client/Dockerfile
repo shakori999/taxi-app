@@ -13,4 +13,4 @@ COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm install --production
 
 # copy the client directory into the container
-COPY . /usr/src/app
+COPY . /usr/src/ap
