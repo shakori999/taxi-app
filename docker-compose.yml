@@ -26,5 +26,15 @@ services:
     ports:
       - 8001:8000
 
+  taxi-client:
+    build:
+      context: ./client
+    command: npm start
+    container_name: taxi-client
+    depends_on:
+      - taxi-server
+    ports:
+      - 3001:3000
+
 volumes:
   taxi-database:
