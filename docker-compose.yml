@@ -16,7 +16,7 @@ services:
   taxi-server:
     build:
       context: ./server
-    command: python taxi/manage.py runserver 0.0.0.0:8000
+    command: daphne --bind 0.0.0.0 --port 8000 taxi.asgi:application 
     container_name: taxi-server
     depends_on:
       - taxi-redis
@@ -25,6 +25,9 @@ services:
       - ./server/test.env
     ports:
       - 8001:8000
+    volumes:
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
 
   taxi-client:
     build:
@@ -35,6 +38,22 @@ services:
       - taxi-server
     ports:
       - 3001:3000
+    
+  taxi-nginx:
+    build:
+      context: ./nginx
+    container_name: taxi-nginx
+    depends_on:
+      - taxi-server
+      - taxi-client
+    ports:
+      - 8000:80
+    restart: always
+    volumes:
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
 
 volumes:
   taxi-database:
+  media:
+  static:

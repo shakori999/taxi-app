@@ -1,32 +1,6 @@
-const logIn = () => {
-  const { username, password } = Cypress.env('credentials');
 
-  // Capture HTTP requests.
-  cy.server();
-  cy.route({
-    method: 'POST',
-    url: '**/api/log_in/**',
-    status: 200,
-    response: {
-      'access': 'ACCESS_TOKEN',
-      'refresh': 'REFRESH_TOKEN'
-    }
-  }).as('logIn');
-
-  // Log into the app.
-  cy.visit('/#/log-in');
-  cy.get('input#username').type(username);
-  cy.get('input#password').type(password, { log: false });
-  cy.get('button').contains('Log in').click();
-  cy.wait('@logIn');
-};
 
 describe('Authentication', function () {
-  it('Can log in.', function () {
-    logIn();
-    cy.hash().should('eq', '#/');
-  });
-
   it('Can sign up.', function () {
     const filepath = 'images/photo.jpg'
     cy.server();
@@ -55,6 +29,34 @@ describe('Authentication', function () {
     cy.get('button').contains('Sign up').click();
     cy.wait('@signUp');
     cy.hash().should('eq', '#/log-in');
+  });
+
+  const logIn = () => {
+    const { username, password } = Cypress.env('credentials');
+
+    // Capture HTTP requests.
+    cy.server();
+    cy.route({
+      method: 'POST',
+      url: '**/api/log_in/**',
+      status: 200,
+      response: {
+        'access': 'ACCESS_TOKEN',
+        'refresh': 'REFRESH_TOKEN'
+      }
+    }).as('logIn');
+
+    // Log into the app.
+    cy.visit('/#/log-in');
+    cy.get('input#username').type(username);
+    cy.get('input#password').type(password, { log: false });
+    cy.get('button').contains('Log in').click();
+    cy.wait('@logIn');
+  }; 
+
+  it('Can log in.', function () {
+    logIn();
+    cy.hash().should('eq', '#/');
   });
 
   it('Cannot visit the login page when logged in', function () {
