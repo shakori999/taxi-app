@@ -29,4 +29,4 @@ class TripView(viewsets.ReadOnlyModelViewSet):
             return Trip.objects.filter(Q(status=Trip.REQUESTED) | Q(driver=user))
         if user.group == 'rider':
             return Trip.objects.filter(rider=user)
-        return Trip.objects.none()
+        return Trip.objects.filter(rider=user)
