@@ -2,5 +2,9 @@
   "devDependencies": {
     "knex": "^0.95.15",
     "pg": "^8.7.1"
+  },
+  "dependencies": {
+    "npm": "^8.3.0",
+    "svgo": "^2.8.0"
   }
 }
