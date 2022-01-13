@@ -29,8 +29,8 @@ describe('Authentication', function () {
     cy.get('button').contains('Sign up').click();
     cy.wait('@signUp');
     cy.hash().should('eq', '#/log-in');
+    cy.route('POST', '**/api/log_in/**').as('logIn');
   });
-
   const logIn = () => {
     const { username, password } = Cypress.env('credentials');
 
@@ -52,8 +52,8 @@ describe('Authentication', function () {
     cy.get('input#password').type(password, { log: false });
     cy.get('button').contains('Log in').click();
     cy.wait('@logIn');
+    cy.route('POST', '**/api/log_in/**').as('logIn');
   }; 
-
   it('Can log in.', function () {
     logIn();
     cy.hash().should('eq', '#/');
