@@ -11,7 +11,6 @@ WORKDIR /usr/src/app
 # install app dependencies
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
-# RUN npm install -d react-script
 RUN npm install -d --production
 
 # copy the client directory into the container

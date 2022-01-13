@@ -16,12 +16,11 @@ services:
   taxi-server:
     build:
       context: ./server
-    command: python taxi/manage.py runserver 0.0.0.0:8000
+    command: daphne --bind 0.0.0.0 --port 8000 taxi.asgi:application 
     container_name: taxi-server
     depends_on:
       - taxi-redis
       - taxi-database
-    # new
     env_file:
       - ./server/test.env
     ports:
@@ -40,16 +39,6 @@ services:
       - 3001:3000
     volumes:
       - ./client:/usr/src/app
-
-  taxi-client:
-    build:
-      context: ./client
-    command: npm start
-    container_name: taxi-client
-    depends_on:
-      - taxi-server
-    ports:
-      - 3001:3000
 
 volumes:
   taxi-database:
