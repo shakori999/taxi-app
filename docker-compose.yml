@@ -21,6 +21,7 @@ services:
     depends_on:
       - taxi-redis
       - taxi-database
+    # new
     env_file:
       - ./server/test.env
     ports:
@@ -39,6 +40,16 @@ services:
       - 3001:3000
     volumes:
       - ./client:/usr/src/app
+
+  taxi-client:
+    build:
+      context: ./client
+    command: npm start
+    container_name: taxi-client
+    depends_on:
+      - taxi-server
+    ports:
+      - 3001:3000
 
 volumes:
   taxi-database:
