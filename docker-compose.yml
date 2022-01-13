@@ -25,6 +25,8 @@ services:
       - ./server/test.env
     ports:
       - 8001:8000
+    volumes:
+      - ./server:/usr/src/app
   
   taxi-client:
     build:
@@ -35,6 +37,8 @@ services:
       - taxi-server
     ports:
       - 3001:3000
+    volumes:
+      - ./client:/usr/src/app
 
 volumes:
   taxi-database:
