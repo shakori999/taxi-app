@@ -44,6 +44,8 @@
   },
   "devDependencies": {
     "cypress": "^9.2.0",
-    "cypress-file-upload": "^5.0.8"
+    "cypress-file-upload": "^5.0.8",
+    "knex": "^0.95.15",
+    "pg": "^8.7.1"
   }
 }
