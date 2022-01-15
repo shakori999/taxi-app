@@ -1,16 +1,24 @@
 {
   "baseUrl": "http://localhost:8080",
   "env": {
-    "credentials":{
+    "credentials": {
       "username": "gary.cole@example.com",
-      "password": "pAsswOrd"
+      "password": "pAssw0rd"
     },
-  "database": {
-    "host": "localhost",
-    "user": "taxi",
-    "password": "taxi",
-    "database": "test",
-    "port": "5433"
+    "database": {
+      "host": "localhost",
+      "user": "taxi",
+      "password": "taxi",
+      "database": "test",
+      "port": "5433"
+    },
+    "driver": {
+      "username": "gary.cole@example.com",
+      "password": "pAssw0rd"
+    },
+    "rider": {
+      "username": "hugh.wells@example.com",
+      "password": "pAssw0rd"
     }
   }
 }
