@@ -7,33 +7,30 @@ import { Redirect } from 'react-router-dom'; // new
 import { isRider } from '../services/AuthService'; // new
 
 function Rider (props) {
-    // if (!isRider()) {
-    //     return <Redirect to='/' />
-    // }
+    if (!isRider()) {
+        return <Redirect to='/' />
+    }
     return (
-        // <Row>
-        // <Col lg={12}>
-        //     <Breadcrumb>
-        //     <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
-        //     <Breadcrumb.Item active>Dashboard</Breadcrumb.Item>
-        //     </Breadcrumb>
-        //     <Card className='mb-3'>
-        //     <Card.Header>Current Trip</Card.Header>
-        //     <Card.Body>
-        //         No trips.
-        //     </Card.Body>
-        //     </Card>
-        //     <Card className='mb-3'>
-        //     <Card.Header>Recent Trips</Card.Header>
-        //     <Card.Body>
-        //         No trips.
-        //     </Card.Body>
-        //     </Card>
-        // </Col>
-        // </Row>
-        <div>
-            <h1>hello</h1>
-        </div>
+        <Row>
+        <Col lg={12}>
+            <Breadcrumb>
+            <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>Dashboard</Breadcrumb.Item>
+            </Breadcrumb>
+            <Card className='mb-3'>
+            <Card.Header>Current Trip</Card.Header>
+            <Card.Body>
+                No trips.
+            </Card.Body>
+            </Card>
+            <Card className='mb-3'>
+            <Card.Header>Recent Trips</Card.Header>
+            <Card.Body>
+                No trips.
+            </Card.Body>
+            </Card>
+        </Col>
+        </Row>
     );
 }
 
