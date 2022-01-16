@@ -54,8 +54,12 @@ context('When there are no trips', function() {
   });
 
   it('Displays messages for no trips', function () {
-    cy.intercept('GET', '**/api/trip/').as('getTrips');
-
+    // cy.intercept('GET', '**/api/trip/').as('getTrips');
+    
+    cy.intercept('trip', {
+      statusCode: 200,
+      body: []
+    }).as('getTrips');
     logIn();
 
     cy.visit('/#/driver');
@@ -64,8 +68,7 @@ context('When there are no trips', function() {
     // Current trips
     cy.get('[data-cy=trip-card]')
       .eq(0)
-      .contains('No trips. ');
-    
+      .contains('No trips.'); 
     // Requested trips
     cy.get('[data-cy=trip-card]')
       .eq(1)

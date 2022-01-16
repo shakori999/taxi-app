@@ -13,11 +13,11 @@ function Rider (props) {
 
     useEffect(() => {
         const loadTrips = async () => {
-            const { responce, isError } = await getTrips();
+            const { response, isError } = await getTrips();
             if (isError) {
                 setTrips([]);
             }else {
-                setTrips(responce.data);
+                setTrips(response.data);
             }
         }
         loadTrips();
