@@ -68,3 +68,28 @@ context('When there are no trips', function () {
       .contains('No trips.');
   });
 });
+
+context('When there are trips', function () {
+  before(function () {
+    cy.loadTripData();
+  });
+
+  it('Displays current and completed trips', function () {
+    cy.intercept('GET', '**/api/trip/').as('getTrips');
+
+    logIn();
+
+    cy.visit('/#/rider');
+    cy.wait('@getTrips');
+
+    // Current trips.
+    cy.get('[data-cy=trip-card]')
+      .eq(0)
+      .contains('STARTED');
+
+    // Completed trips.
+    cy.get('[data-cy=trip-card]')
+      .eq(1)
+      .contains('COMPLETED');
+  });
+});
