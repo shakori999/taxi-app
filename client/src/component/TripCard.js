@@ -22,7 +22,7 @@ function TripCard ({ title, trips, group, otherGroup}) {
     }
     return (
         <Card className='mb-3' data-cy='trip-card'>
-            <Card.header>{title}</Card.header>
+            <Card.Header>{title}</Card.Header>
             <Card.Body>{cardBody}</Card.Body>
         </Card>
     )

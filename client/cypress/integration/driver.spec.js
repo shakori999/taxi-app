@@ -45,3 +45,35 @@ describe('The driver dashboard', function () {
     cy.hash().should('eq', '#/driver')
   })
 })
+
+context('When there are no trips', function() {
+  before(function () {
+    cy.task('tableTruncate', {
+      table: 'trips_trip'
+    });
+  });
+
+  it('Displays messages for no trips', function () {
+    cy.intercept('GET', '**/api/trip/').as('getTrips');
+
+    logIn();
+
+    cy.visit('/#/driver');
+    cy.wait('@getTrips');
+
+    // Current trips
+    cy.get('[data-cy=trip-card]')
+      .eq(0)
+      .contains('No trips. ');
+    
+    // Requested trips
+    cy.get('[data-cy=trip-card]')
+      .eq(1)
+      .contains('No trips. ');
+    
+    // Completed trips
+    cy.get('[data-cy=trip-card]')
+      .eq(2)
+      .contains('No trips. ');
+  });
+});

@@ -1,4 +1,4 @@
-import React, { useEffect, UseState }from 'react';
+import React, { useEffect, useState }from 'react';
 import {
   Breadcrumb, Card, Col, Row
 } from 'react-bootstrap';

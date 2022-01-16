@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Media } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 function TripMedia({trip, group, otherGroup }) {
     const user = trip[otherGroup];
