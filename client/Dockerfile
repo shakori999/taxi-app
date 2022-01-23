@@ -1,5 +1,5 @@
 # base image
-FROM node:16
+FROM node:16-alpine
 
 # set working directory
 RUN mkdir -p /usr/src/app
@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install app dependencies
+
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm install -d --production
