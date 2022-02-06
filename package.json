@@ -2,5 +2,9 @@
   "dependencies": {
     "react-bootstrap": "^2.1.1",
     "react-script": "^2.0.5"
+  },
+  "devDependencies": {
+    "knex": "^1.0.2",
+    "pg": "^8.7.3"
   }
 }

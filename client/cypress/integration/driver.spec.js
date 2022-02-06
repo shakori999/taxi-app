@@ -1,5 +1,5 @@
 const logIn = () => {
-  const { username, password } = Cypress.env('rider');
+  const { username, password } = Cypress.env('driver');
   cy.server();
   cy.route('POST', '**/api/log_in/').as('logIn');
   cy.visit('/#/log-in');
@@ -9,14 +9,12 @@ const logIn = () => {
   cy.wait('@logIn');
 };
 
-describe('The rider dashboard', function () {
-  // new
-  before(function () {
-    cy.loadUserData();
-  });
-
-  it('Cannot be visited if the user is not a rider', function () {
-    const { username, password } = Cypress.env('driver')
+describe('The driver dashboard', function () {
+    before(function () {
+        cy.loadUserData();
+    });
+  it('Cannot be visited if the user is not a driver', function () {
+    const { username, password } = Cypress.env('rider')
 
     // Capture API calls.
     cy.server()
@@ -31,12 +29,12 @@ describe('The rider dashboard', function () {
     cy.get('button').contains('Log out')
     cy.wait('@logIn')
 
-    cy.visit('/#/rider')
+    cy.visit('/#/driver')
     cy.hash().should('eq', '#/')
   }),
-  it('Can be visited if the user is a rider', function () {
+  it('Can be visited if the user is a driver', function () {
     logIn();
-    // const { username, password } = Cypress.env('rider')
+    // const { username, password } = Cypress.env('driver')
 
     // Capture API calls.
     // cy.server()
@@ -51,7 +49,7 @@ describe('The rider dashboard', function () {
     // cy.get('button').contains('Log out')
     // cy.wait('@logIn')
 
-    cy.visit('/#/rider')
-    cy.hash().should('eq', '#/rider')
+    cy.visit('/#/driver')
+    cy.hash().should('eq', '#/driver')
     })
 })

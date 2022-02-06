@@ -5,8 +5,8 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 import {Link, Redirect, Route, Switch } from 'react-router-dom'; 
 
-import SignUp from './component/SignUp';
-import LogIn from './component/LogIn';
+import SignUp from './components/SignUp';
+import LogIn from './components/LogIn';
 import Driver from './components/Driver.js';
 import Rider from './components/Rider.js';
 

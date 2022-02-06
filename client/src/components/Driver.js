@@ -3,7 +3,13 @@ import {
   Breadcrumb, Card, Col, Row
 } from 'react-bootstrap';
 
+import { Redirect } from 'react-router-dom';
+import { isDriver } from '../services/AuthService';
+
 function Driver (props) {
+    if(!isDriver()) {
+        return <Redirect to='/' />
+    }
   return (
     <Row>
       <Col lg={12}>
