@@ -3,20 +3,7 @@
 describe('Authentication', function () {
   it('Can sign up.', function () {
     const filepath = 'images/photo.jpg'
-    cy.server();
-    cy.route({
-      method: 'POST',
-      url: '**/api/sign_up/**',
-      status: 201,
-      response: {
-        'id': 1,
-        'username': 'gary.cole@example.com',
-        'first_name': 'Gary',
-        'last_name': 'Cole',
-        'group': 'driver',
-        'photo': '/media/images/photo.jpg'
-      }
-    }).as('signUp');
+    cy.intercept('POST', '**/api/sign_up/**').as('signUp');
 
     cy.visit('/#/sign-up');
     cy.get('input#username').type('gary.cole@example.com');
@@ -36,15 +23,7 @@ describe('Authentication', function () {
 
     // Capture HTTP requests.
     cy.server();
-    cy.route({
-      method: 'POST',
-      url: '**/api/log_in/**',
-      status: 200,
-      response: {
-        'access': 'ACCESS_TOKEN',
-        'refresh': 'REFRESH_TOKEN'
-      }
-    }).as('logIn');
+    cy.intercept('POST', '**/api/log_in/**').as('logIn');
 
     // Log into the app.
     cy.visit('/#/log-in');
