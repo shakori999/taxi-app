@@ -7,6 +7,8 @@ import {Link, Redirect, Route, Switch } from 'react-router-dom';
 
 import SignUp from './component/SignUp';
 import LogIn from './component/LogIn';
+import Driver from './components/Driver.js';
+import Rider from './components/Rider.js';
 
 import './App.css';
 import axios from 'axios';
@@ -93,6 +95,12 @@ function App () {
             <LogIn logIn={logIn} />
             )
           )}  />
+          <Route path='/driver' render={() => (
+            <Driver />
+          )} />
+          <Route path='/rider' render={() => (
+            <Rider />
+          )} />
         </Switch>
       </Container>
     </>
