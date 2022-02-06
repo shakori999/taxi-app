@@ -7,12 +7,20 @@ from django.conf import settings
 # Create your models here.
 
 class User(AbstractUser):
-    photo = models.ImageField(upload_to='photos', null=True, blank=True)
+    photo = models.ImageField(upload_to='photos', null=True, blank=True, verbose_name='user Image')
+    def __unicode__(self):
+            return (self.photo)
+    def image_img(self):
+        if self.photo:
+            return u'<img src="%s" width="50" height="50" />' % self.photo.url
+        else:
+            return '(Sin imagen)'
+    image_img.short_description = 'Thumb'
+    image_img.allow_tags = True
     @property
     def group(self):
         groups = self.groups.all()
         return groups[0].name if groups else None
-
 
 class Trip(models.Model): # new
     REQUESTED = 'REQUESTED'

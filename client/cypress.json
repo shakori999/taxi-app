@@ -1,16 +1,9 @@
 {
   "baseUrl": "http://localhost:8080",
   "env": {
-    "credentials":{
+    "credentials": {
       "username": "gary.cole@example.com",
-      "password": "pAsswOrd"
-    },
-  "database": {
-    "host": "localhost",
-    "user": "taxi",
-    "password": "taxi",
-    "database": "test",
-    "port": "5433"
+      "password": "pAssw0rd"
     }
   }
 }

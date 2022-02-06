@@ -3,7 +3,8 @@
 describe('Authentication', function () {
   it('Can sign up.', function () {
     const filepath = 'images/photo.jpg'
-    cy.intercept('POST', '**/api/sign_up/**').as('signUp');
+    cy.server();
+    cy.route('POST', '**/api/sign_up/**').as('signUp');
 
     cy.visit('/#/sign-up');
     cy.get('input#username').type('gary.cole@example.com');

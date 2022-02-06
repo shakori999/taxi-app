@@ -137,17 +137,18 @@ function SignUp (props) {
                   <Form.Group controlId='photo'>
                     <Form.Label>Photo:</Form.Label>
                     <Form.Control
-                      className={ 'photo' in errors ? 'is-invalid' : ''}
+                      className={ 'photo' in errors ? 'is-invalid' : '' }
                       name='photo'
-                      onChange={handleChange}
+                      onChange={event => {
+                        setFieldValue('photo', event.currentTarget.files[0]);
+                      }}
                       type='file'
-                      value={values.photo}
                     />
                     {
                       'photo' in errors &&
                       <Form.Control.Feedback type='invalid'>{ errors.photo }</Form.Control.Feedback>
                     }
-                  </Form.Group>
+                </Form.Group>
                   <Button block type='submit' variant='primary'>Sign up</Button>
                 </Form>
               )}

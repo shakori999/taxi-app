@@ -38,8 +38,8 @@ services:
       - taxi-server
     ports:
       - 3001:3000
-    # volumes:
-    #   - ./client:/usr/src/app
+    volumes:
+      - ./client:/usr/src/app
 
   taxi-nginx:
     build:
