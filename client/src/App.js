@@ -1,10 +1,11 @@
 import React, { useState} from 'react';
 import { 
-  Container, Navbar, Button, Form
+  Container, Navbar, Button, Form, Nav
  } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import {Link, Redirect, Route, Switch } from 'react-router-dom'; 
 
+import { isDriver, isRider } from './services/AuthService';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import Driver from './components/Driver.js';
@@ -60,24 +61,40 @@ function App () {
             <div className='middle-center'>
               <h1 className='landing logo'>Taxi</h1>
               {
-                !isLoggedIn &&
-                <Link 
-                  id='signUp'
-                  className='btn btn-primary'
-                  to='/sign-up'
-                  >
-                    Sign Up
-                  </Link>
+                !isLoggedIn && (
+                  <>
+                    <Link 
+                      id='signUp'
+                      className='btn btn-primary'
+                      to='/sign-up'
+                      >
+                        Sign Up
+                    </Link>
+                    <Link 
+                      id='logIn'
+                      className='btn btn-primary'
+                      to='/log-in'
+                      >
+                        Log In
+                    </Link>
+                  </>
+                )
               }
               {
-                !isLoggedIn &&
-                <Link 
-                  id='logIn'
-                  className='btn btn-primary'
-                  to='/log-in'
-                  >
-                    Log In
-                  </Link>
+                isRider() && (
+                  <Link 
+                    className='btn btn-primary'
+                    to='/rider'
+                    >DashBoard</Link>
+                )
+              }
+              {
+                isDriver() && (
+                  <Link 
+                    className='btn btn-primary'
+                    to='/driver'
+                    >DashBoard</Link>
+                )
               }
             </div>
           )} />

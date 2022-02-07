@@ -9,21 +9,6 @@ import TripCard from './TripCard';
 import { isRider } from '../services/AuthService'; // new
 import { getTrips } from '../services/TripService';
 
-const getCurrentTrips = () => {
-    return trips.filter(trip => {
-        return (
-            trip.driver !== null &&
-            trip.status !== 'REQESTED' &&
-            trip.status !== 'COMPLETED'
-        );
-    });
-};
-
-const getCompletedTrips = () => {
-    return trips.filter(trip => {
-        return trip.status === 'COMPLETED';
-    });
-};
 
 function Rider (props) {
     const [trips, setTrips] = useState([]);
@@ -42,6 +27,21 @@ function Rider (props) {
     if (!isRider()) {
         return <Redirect to='/' />
     }
+    const getCurrentTrips = () => {
+        return trips.filter(trip => {
+            return (
+                trip.driver !== null &&
+                trip.status !== 'REQESTED' &&
+                trip.status !== 'COMPLETED'
+            );
+        });
+    };
+
+    const getCompletedTrips = () => {
+        return trips.filter(trip => {
+            return trip.status === 'COMPLETED';
+        });
+    };
     return (
         <Row>
             <Col lg={12}>
