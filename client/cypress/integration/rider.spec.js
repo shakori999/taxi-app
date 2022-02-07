@@ -36,22 +36,35 @@ describe('The rider dashboard', function () {
   }),
   it('Can be visited if the user is a rider', function () {
     logIn();
-    // const { username, password } = Cypress.env('rider')
-
-    // Capture API calls.
-    // cy.server()
-    // cy.route('POST', '**/api/log_in/').as('logIn')
-
-    // // Log in.
-    // cy.visit('/#/log-in')
-    // cy.get('input#username').type(username)
-    // cy.get('input#password').type(password, { log: false })
-    // cy.get('button').contains('Log in').click()
-    // cy.hash().should('eq', '#/')
-    // cy.get('button').contains('Log out')
-    // cy.wait('@logIn')
 
     cy.visit('/#/rider')
     cy.hash().should('eq', '#/rider')
     })
+  context('When there are no trips', function () {
+    // before(function () {
+    //   cy.task('tableTruncate', {
+    //     table: 'trips_trip'
+    //   });
+    // });
+
+    it('Displays messages for no trips', function () {
+      cy.server();
+      cy.route('GET', '**/api/trip/').as('getTrips');
+
+      logIn();
+
+      cy.visit('/#/rider');
+      cy.wait('@getTrips');
+
+      // Current trips.
+      cy.get('[data-cy=trip-card]')
+        .eq(0)
+        .contains('No trips.');
+
+      // Completed trips.
+      cy.get('[data-cy=trip-card]')
+        .eq(1)
+        .contains('No trips.');
+    });
+  });
 })
