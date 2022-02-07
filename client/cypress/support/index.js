@@ -20,3 +20,13 @@ const loadUserData = () => {
 
 // new
 Cypress.Commands.add('loadUserData', loadUserData);
+
+const loadTripData = () => {
+  cy.fixture('data/trips.json').then((trips) => {
+    cy.task('tableInsert', {
+      table: 'trips_trip', rows: trips, truncate: true
+    });
+  });
+};
+
+Cypress.Commands.add('loadTripData', loadTripData);
