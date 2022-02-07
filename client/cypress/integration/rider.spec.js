@@ -41,11 +41,11 @@ describe('The rider dashboard', function () {
     cy.hash().should('eq', '#/rider')
     })
   context('When there are no trips', function () {
-    // before(function () {
-    //   cy.task('tableTruncate', {
-    //     table: 'trips_trip'
-    //   });
-    // });
+    before(function () {
+      cy.task('tableTruncate', {
+        table: 'trips_trip'
+      });
+    });
 
     it('Displays messages for no trips', function () {
       cy.server();
