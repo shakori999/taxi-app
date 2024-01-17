@@ -108,7 +108,7 @@ function App () {
             isLoggedIn ? (
               <Redirect to='/'/>
             ): (
-            <LogIn logIn={logIn} />
+            //<LogIn logIn={logIn} />
             )
           )}  />
 

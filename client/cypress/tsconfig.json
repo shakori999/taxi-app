@@ -4,5 +4,7 @@
     "baseUrl": "../node_modules",
     "types": ["cypress"]
   },
-  "include": ["**/*.*"]
+  "include": ["**/*.*"],
+  "uncaughtExceptionHandling": true,
+  "uncaught:exception":true
 }
