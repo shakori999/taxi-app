@@ -1,18 +1,22 @@
-FROM python:3.7.5-alpine
+# pull official base image
+FROM python:3.10-slim-buster
 
-RUN apk update && apk add build-base python-dev py-pip jpeg-dev zlib-dev openssl-dev gcc libffi-dev postgresql-dev
-ENV LIBRARY_PATH=/lib:/usr/lib
-
+# set work directory
 WORKDIR /usr/src/app
 
-COPY ./requirements.txt /usr/src/app
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
+# install psycopg2 dependencies
+RUN apt-get update \
+  && apt-get -y install gcc postgresql \
+  && apt-get clean
+
+# install dependencies
 RUN pip install --upgrade pip
+COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY . /usr/src/app
-
-WORKDIR /usr/src/app/taxi
-
-
-RUN python manage.py collectstatic --noinput
+# copy project
+COPY . .
