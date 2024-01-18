@@ -1,37 +1,45 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
-import { 
-  Container, Navbar, Nav, Button, Form
- } from 'react-bootstrap';
+import {
+  Button, Container, Form, Nav, Navbar
+} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import {Link, Redirect, Route, Switch } from 'react-router-dom'; 
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-import { isDriver, isRider } from './services/AuthService';
-import SignUp from './component/SignUp';
-import LogIn from './component/LogIn';
-import Driver from './component/Driver.js';
-import Rider from './component/Rider.js';
+import Driver from './components/Driver';
+import DriverDashboard from './components/DriverDashboard';
+import DriverDetail from './components/DriverDetail';
+import Landing from './components/Landing';
+import LogIn from './components/LogIn';
+import Rider from './components/Rider';
+import RiderDashboard from './components/RiderDashboard';
+import RiderDetail from './components/RiderDetail';
+import RiderRequest from './components/RiderRequest';
+import SignUp from './components/SignUp';
+import { isRider, isDriver } from './services/AuthService';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App () {
   const [isLoggedIn, setLoggedIn] = useState(() => {
-    return window.localStorage.getItem('taxi.auth') !==null;
+    return window.localStorage.getItem('taxi.auth') !== null;
   });
+
   const logIn = async (username, password) => {
-    const url = '/api/log_in/';
+    const url = `${process.env.REACT_APP_BASE_URL}/api/log_in/`;
     try {
-      const response = await axios.post(url, {username, password });
+      const response = await axios.post(url, { username, password });
       window.localStorage.setItem(
         'taxi.auth', JSON.stringify(response.data)
       );
       setLoggedIn(true);
-      return { response, isError:false};
+      return { response, isError: false };
     }
     catch (error) {
       console.error(error);
-      return { response: error, isError:true };
+      return { response: error, isError: true };
     }
   };
 
@@ -39,91 +47,93 @@ function App () {
     window.localStorage.removeItem('taxi.auth');
     setLoggedIn(false);
   };
+  
+  return (
+    <Routes>
+      <Route
+        path='/'
+        element={
+          <Layout
+            isLoggedIn={isLoggedIn}
+            logOut={logOut}
+          />
+        }
+      >
+        <Route index element={<Landing isLoggedIn={isLoggedIn} />} />
+        <Route
+          path='sign-up'
+          element={
+            <SignUp isLoggedIn={isLoggedIn} />
+          }
+        />
+        <Route
+          path='log-in'
+          element={
+            <LogIn
+              isLoggedIn={isLoggedIn}
+              logIn={logIn}
+            />
+          }
+        />
+        <Route path='rider' element={<Rider />}>
+          <Route index element={<RiderDashboard />} />
+          <Route path='request' element={<RiderRequest />} />
+          <Route path=':id' element={<RiderDetail />} />
+        </Route>
+        <Route path='driver' element={<Driver />}>
+          <Route index element={<DriverDashboard />} />
+          <Route path=':id' element={<DriverDetail />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
 
+function Layout ({ isLoggedIn, logOut }) {
   return (
     <>
       <Navbar bg='light' expand='lg' variant='light'>
-        <LinkContainer to='/'>
-          <Navbar.Brand className='logo'>Taxi</Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle />
-        <Navbar.Collapse>
-          {
-            isLoggedIn &&
-            <Form inline className='ml-auto'>
-              <Button type='button' onClick={() => logOut()}>Log out</Button>
-            </Form>
-          }
-        </Navbar.Collapse>
+        <Container>
+          <LinkContainer to='/'>
+            <Navbar.Brand className='logo'>Taxi</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle />
+          <Navbar.Collapse>
+            {
+              isRider() && (
+                <Nav className='me-auto'>
+                  <LinkContainer to='/rider/request'>
+                    <Nav.Link data-cy='request-trip'>Request a trip</Nav.Link>
+                  </LinkContainer>
+                </Nav>
+              )
+            }
+            {
+              isDriver() && (
+                <Nav className='me-auto'>
+                  <LinkContainer to='/driver/request'>
+                    <Nav.Link data-cy='request-trip'>gettrpis</Nav.Link>
+                  </LinkContainer>
+                </Nav>
+              )
+            }
+            {
+              isLoggedIn && (
+                <Form className='ms-auto'>
+                    <Button type='button' data-cy='Log out' onClick={() => logOut()}>Log out</Button>
+                </Form>
+              )
+            }
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
       <Container className='pt-3'>
-        <Switch>
-          <Route exact path='/' render={() => (
-            <div className='middle-center'>
-              <h1 className='landing logo'>Taxi</h1>
-              {
-                !isLoggedIn && (
-                  <>
-                    <Link
-                      id='signUp'
-                      className='btn btn-primary'
-                      to='/sign-up'
-                    >Sign up</Link>
-                    <Link
-                      id='logIn'
-                      className='btn btn-primary'
-                      to='/log-in'
-                    >Log in</Link>
-                  </>
-                )
-              }
-              {
-                isRider() && (
-                  <Link
-                    className='btn btn-primary'
-                    to='/rider'
-                  >Dashboard</Link>
-                )
-              }
-              {
-                isDriver() && (
-                  <Link
-                    className='btn btn-primary'
-                    to='/driver'
-                  >Dashboard</Link>
-                )
-              }
-            </div>
-          )} />
-
-          <Route path='/sign-up' render={() => (
-            isLoggedIn ? (
-              <Redirect to='/' />
-            ): (
-              <SignUp />
-            )
-          )}/>
-
-          <Route path='/log-in' render={() => (
-            isLoggedIn ? (
-              <Redirect to='/'/>
-            ): (
-            //<LogIn logIn={logIn} />
-            )
-          )}  />
-
-          <Route path='/rider' render={() => (
-            <Rider />
-          )} />
-
-          <Route path='/driver' render={() => (
-            <Driver />
-          )} />
-
-        </Switch>
+        <Outlet />
       </Container>
+      <ToastContainer />
     </>
   );
 }
 
 export default App;
+

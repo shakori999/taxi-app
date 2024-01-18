@@ -7,6 +7,7 @@ export const getUser = () => {
   }
   return undefined;
 };
+
 export const isDriver = () => {
   const user = getUser();
   return user && user.group === 'driver';

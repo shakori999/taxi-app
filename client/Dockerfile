@@ -1,18 +1,16 @@
-# base image
-FROM node:16-alpine
+# pull official base image
+FROM node:19.0-alpine
 
 # set working directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install app dependencies
+COPY package.json .
+COPY yarn.lock .
+RUN yarn install --production
 
-COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm install -d --production
-
-# copy the client directory into the container
-COPY . /usr/src/app
+# copy project
+COPY . .
