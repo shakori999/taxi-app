@@ -18,7 +18,7 @@ This is a taxi app built using Django Rest Framework, PostgreSQL, and Redis. The
 # important info: when clone this repo go to completed tests branch to see the best version of this code so far
 
 # Testing
-
+![Alt Text](images/authentication_tests.png)
 ## Authentication
 
 - [x] Can sign up.
