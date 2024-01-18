@@ -22,7 +22,7 @@ This is a taxi app built using Django Rest Framework, PostgreSQL, and Redis. The
 ![Alt Text](images/driver_dashboard_tests.png)
 ![Alt Text](images/navigations_tests.png)
 ![Alt Text](images/rider_dashboard_tests.png)
-![Alt Text](images/rips_tests.png)
+![Alt Text](images/trips_tests.png)
 
 
 ## Authentication
